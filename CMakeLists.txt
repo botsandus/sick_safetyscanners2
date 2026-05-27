@@ -44,9 +44,13 @@ add_executable(sick_safetyscanners2_node
 
 target_link_libraries(sick_safetyscanners2_node
         sick_safetyscanners_base::sick_safetyscanners_base
-        ${Boost_LIBRARIES})
-
-ament_target_dependencies(sick_safetyscanners2_node ${dependencies})
+        ${Boost_LIBRARIES}
+        ${diagnostic_updater_TARGETS}
+        ${rclcpp_TARGETS}
+        ${rclcpp_lifecycle_TARGETS}
+        ${lifecycle_msgs_TARGETS}
+        ${sensor_msgs_TARGETS}
+        ${sick_safetyscanners2_interfaces_TARGETS})
 
 target_include_directories(sick_safetyscanners2_node PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -60,9 +64,13 @@ add_executable(sick_safetyscanners2_lifecycle_node
 
 target_link_libraries(sick_safetyscanners2_lifecycle_node
         sick_safetyscanners_base::sick_safetyscanners_base
-        ${Boost_LIBRARIES})
-
-ament_target_dependencies(sick_safetyscanners2_lifecycle_node ${dependencies})
+        ${Boost_LIBRARIES}
+        ${diagnostic_updater_TARGETS}
+        ${rclcpp_TARGETS}
+        ${rclcpp_lifecycle_TARGETS}
+        ${lifecycle_msgs_TARGETS}
+        ${sensor_msgs_TARGETS}
+        ${sick_safetyscanners2_interfaces_TARGETS})
 
 target_include_directories(sick_safetyscanners2_lifecycle_node PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
