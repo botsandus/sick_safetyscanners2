@@ -39,6 +39,8 @@
 
 namespace sick {
 
+constexpr float kPi = 3.14159265358979323846f;
+
 /*!
  * \brief Converts a boolean to a string containing true or false.
  * \param x boolean to convert to a string
@@ -51,14 +53,14 @@ inline std::string btoa(bool x) { return ((x) ? "true" : "false"); }
  * \param deg Degrees to convert.
  * \return To radians converted degrees.
  */
-inline float degToRad(float deg) { return deg * M_PI / 180.0f; }
+inline float degToRad(float deg) { return deg * kPi / 180.0f; }
 
 /*!
  * \brief Converts radians to degrees.
  * \param rad Input radians to convert
  * \return To degrees converted radians
  */
-inline float radToDeg(float rad) { return rad * 180.0f / M_PI; }
+inline float radToDeg(float rad) { return rad * 180.0f / kPi; }
 
 /*!
  * \brief Converts a skip value into a "publish frequency" value

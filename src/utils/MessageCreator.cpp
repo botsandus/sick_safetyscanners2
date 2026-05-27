@@ -60,13 +60,11 @@ MessageCreator::createLaserScanMsg(const sick::datastructure::Data &data,
                                        : sick::degToRad(scan_points.back().getAngle() + m_angle_offset);
   scan.angle_increment =
       sick::degToRad(data.getDerivedValuesPtr()->getAngularBeamResolution());
-  boost::posix_time::microseconds time_increment =
-      boost::posix_time::microseconds(
-          data.getDerivedValuesPtr()->getInterbeamPeriod());
-  scan.time_increment = time_increment.total_microseconds() * 1e-6;
-  boost::posix_time::milliseconds scan_time = boost::posix_time::milliseconds(
-      data.getDerivedValuesPtr()->getScanTime());
-  scan.scan_time = scan_time.total_microseconds() * 1e-6;
+    scan.time_increment =
+      static_cast<double>(data.getDerivedValuesPtr()->getInterbeamPeriod()) *
+      1e-6;
+    scan.scan_time =
+      static_cast<double>(data.getDerivedValuesPtr()->getScanTime()) * 1e-3;
   // TODO
   scan.range_min = m_range_min;
   scan.range_max = m_range_max;
