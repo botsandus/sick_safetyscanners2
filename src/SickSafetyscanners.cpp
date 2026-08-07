@@ -136,13 +136,19 @@ void SickSafetyscanners::setupCommunication(
 
   RCLCPP_INFO(getLogger(), "Communication to Sensor set up");
 
-  // Read sensor specific configurations
-  readTypeCodeSettings();
-  readMetadata();
-  readFirmwareVersion();
+  // Read sensor specific configurations, sharing one Cola2 session: the
+  // nanoScan3 wedges its data output (internal error 0xE2060016) after a few
+  // thousand session open/close cycles, so each startup must spend as few as
+  // possible.
+  {
+    sick::SickSafetyscannersBase::SessionBatch batch(*m_device);
+    readTypeCodeSettings();
+    readMetadata();
+    readFirmwareVersion();
 
-  if (m_config.m_use_pers_conf) {
-    readPersistentConfig();
+    if (m_config.m_use_pers_conf) {
+      readPersistentConfig();
+    }
   }
 
   m_config.setupMsgCreator();
@@ -239,6 +245,10 @@ bool SickSafetyscanners::getFieldData(
         response) {
   // Suppress warning of unused request variable due to empty request fields
   (void)request;
+
+  // Field data, device name and monitoring cases together are hundreds of
+  // Cola2 commands; run them all in a single session (see setupCommunication).
+  sick::SickSafetyscannersBase::SessionBatch batch(*m_device);
 
   std::vector<sick::datastructure::FieldData> fields;
   m_device->requestFieldData(fields);
